@@ -22,6 +22,7 @@
           specialArgs = {
             inherit inputs;
             asztal = self.packages.aarch64-linux.default;
+            secrets = builtins.fromJSON (builtins.readFile .secrets/common.json);
           };
           modules = [
             ./nixos

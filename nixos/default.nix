@@ -1,5 +1,6 @@
 {
   inputs,
+  secrets,
   lib,
   ...
 }:
@@ -34,7 +35,7 @@ in
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = {
-      inherit inputs;
+      inherit inputs secrets;
     };
     users.${username} = {
       home.username = username;
