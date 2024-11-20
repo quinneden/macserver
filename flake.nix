@@ -1,5 +1,5 @@
 {
-  description = "Configurations of Aylur";
+  description = "NixOS configuration for Mac mini M1 server";
 
   outputs =
     inputs@{
@@ -10,14 +10,16 @@
       lix-module,
       ...
     }:
+    let
+      host = "macserver";
+    in
     {
       packages.aarch64-linux.default = nixpkgs.legacyPackages.aarch64-linux.callPackage ./ags {
         inherit inputs;
       };
 
-      # nixos config
       nixosConfigurations = {
-        macserver = nixpkgs.lib.nixosSystem {
+        "${host}" = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = {
             inherit inputs;
@@ -29,9 +31,13 @@
             home-manager.nixosModules.home-manager
             nixos-apple-silicon.nixosModules.default
             lix-module.nixosModules.default
-            { networking.hostName = "nixos"; }
+            { networking.hostName = host; }
           ];
         };
+      };
+
+      checks = {
+        "${host}" = self.nixosConfigurations.aarch64-linux.${host}.config.system.build.toplevel;
       };
     };
 
@@ -63,8 +69,8 @@
     };
 
     matugen.url = "github:InioX/matugen?ref=v2.2.0";
-    ags.url = "github:Aylur/ags";
-    astal.url = "github:Aylur/astal";
+    ags.url = "github:quinneden/ags";
+    astal.url = "github:quinneden/astal";
 
     lf-icons = {
       url = "github:gokcehan/lf";
@@ -75,5 +81,7 @@
       url = "github:rafaelmardojai/firefox-gnome-theme";
       flake = false;
     };
+
+    nix-shell-scripts.url = "github:quinneden/nix-shell-scripts";
   };
 }
