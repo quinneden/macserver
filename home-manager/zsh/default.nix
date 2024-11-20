@@ -78,7 +78,7 @@ in
     };
     # initExtraBeforeCompInit = initExtraBeforeCompInitCommon + (if pkgs.stdenv.isDarwin then initExtraBeforeCompInitDarwin else null);
     initExtraBeforeCompInit = ''
-      fpath+=("/opt/homebrew/share/zsh/site-functions" "${pkgs.lix}/share/zsh/site-functions" "${
+      fpath+=("${pkgs.lix}/share/zsh/site-functions" "${
         if pkgs.stdenv.isDarwin then "/opt/homebrew/share/zsh/site-functions" else ""
       }")
     '';
