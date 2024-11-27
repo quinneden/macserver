@@ -14,7 +14,7 @@
       nh
       nodejs
       nil
-      (vagrant.override { withLibvirt = false; })
+      # (vagrant.override { withLibvirt = false; })
     ];
     cli = [
       bat
