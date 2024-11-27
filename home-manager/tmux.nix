@@ -132,9 +132,9 @@ in
     prefix = "C-Space";
     baseIndex = 1;
     escapeTime = 0;
-    keyMode = "vi";
+    # keyMode = "vi";
     mouse = true;
-    shell = "${pkgs.nushell}/bin/nu";
+    shell = "${pkgs.zsh}/bin/zsh";
     extraConfig = ''
       set-option -sa terminal-overrides ",xterm*:Tc"
       bind v copy-mode
