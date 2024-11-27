@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   nautEnv = pkgs.buildEnv {
     name = "nautilus-env";
 
@@ -12,9 +13,10 @@
       nautilus-open-any-terminal
     ];
   };
-in {
+in
+{
   environment = {
-    systemPackages = [nautEnv];
+    systemPackages = [ nautEnv ];
     pathsToLink = [
       "/share/nautilus-python/extensions"
     ];

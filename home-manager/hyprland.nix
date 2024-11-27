@@ -2,7 +2,8 @@
   inputs,
   pkgs,
   ...
-}: let
+}:
+let
   hyprland = inputs.hyprland.packages.${pkgs.system}.hyprland;
   # plugins = inputs.hyprland-plugins.packages.${pkgs.system};
 
@@ -15,13 +16,14 @@
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   pactl = "${pkgs.pulseaudio}/bin/pactl";
   screenshot = import ./scripts/screenshot.nix pkgs;
-in {
+in
+{
   xdg.desktopEntries."org.gnome.Settings" = {
     name = "Settings";
     comment = "Gnome Control Center";
     icon = "org.gnome.Settings";
     exec = "env XDG_CURRENT_DESKTOP=gnome ${pkgs.gnome.gnome-control-center}/bin/gnome-control-center";
-    categories = ["X-Preferences"];
+    categories = [ "X-Preferences" ];
     terminal = false;
   };
 
@@ -87,34 +89,47 @@ in {
         workspace_swipe_use_r = true;
       };
 
-      windowrule = let
-        f = regex: "float, ^(${regex})$";
-      in [
-        (f "org.gnome.Calculator")
-        (f "org.gnome.Nautilus")
-        (f "pavucontrol")
-        (f "nm-connection-editor")
-        (f "blueberry.py")
-        (f "org.gnome.Settings")
-        (f "org.gnome.design.Palette")
-        (f "Color Picker")
-        (f "xdg-desktop-portal")
-        (f "xdg-desktop-portal-gnome")
-        (f "de.haeckerfelix.Fragments")
-        (f "com.github.Aylur.ags")
-        "workspace 7, title:Spotify"
-      ];
+      windowrule =
+        let
+          f = regex: "float, ^(${regex})$";
+        in
+        [
+          (f "org.gnome.Calculator")
+          (f "org.gnome.Nautilus")
+          (f "pavucontrol")
+          (f "nm-connection-editor")
+          (f "blueberry.py")
+          (f "org.gnome.Settings")
+          (f "org.gnome.design.Palette")
+          (f "Color Picker")
+          (f "xdg-desktop-portal")
+          (f "xdg-desktop-portal-gnome")
+          (f "de.haeckerfelix.Fragments")
+          (f "com.github.Aylur.ags")
+          "workspace 7, title:Spotify"
+        ];
 
-      bind = let
-        binding = mod: cmd: key: arg: "${mod}, ${key}, ${cmd}, ${arg}";
-        mvfocus = binding "SUPER" "movefocus";
-        ws = binding "SUPER" "workspace";
-        resizeactive = binding "SUPER CTRL" "resizeactive";
-        mvactive = binding "SUPER ALT" "moveactive";
-        mvtows = binding "SUPER SHIFT" "movetoworkspace";
-        e = "exec, ags -b hypr";
-        arr = [1 2 3 4 5 6 7];
-      in
+      bind =
+        let
+          binding =
+            mod: cmd: key: arg:
+            "${mod}, ${key}, ${cmd}, ${arg}";
+          mvfocus = binding "SUPER" "movefocus";
+          ws = binding "SUPER" "workspace";
+          resizeactive = binding "SUPER CTRL" "resizeactive";
+          mvactive = binding "SUPER ALT" "moveactive";
+          mvtows = binding "SUPER SHIFT" "movetoworkspace";
+          e = "exec, ags -b hypr";
+          arr = [
+            1
+            2
+            3
+            4
+            5
+            6
+            7
+          ];
+        in
         [
           "CTRL SHIFT, R,  ${e} quit; ags -b hypr"
           "SUPER, R,       ${e} -t launcher"
@@ -194,7 +209,7 @@ in {
           size = 8;
           passes = 3;
           new_optimizations = "on";
-          noise = 0.01;
+          noise = 1.0e-2;
           contrast = 0.9;
           brightness = 0.8;
           popups = true;

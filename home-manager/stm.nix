@@ -1,5 +1,6 @@
-{inputs, ...}: {
-  imports = [inputs.stm.homeManagerModules.default];
+{ inputs, ... }:
+{
+  imports = [ inputs.stm.homeManagerModules.default ];
 
   programs.stm = {
     enable = true;

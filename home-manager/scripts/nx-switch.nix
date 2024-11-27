@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   symlink = pkgs.writeShellScript "symlink" ''
     if [[ "$1" == "-r" ]]; then
       rm -rf "$HOME/.config/nvim"
@@ -28,6 +29,11 @@
     sudo nixos-rebuild test --flake . --impure $@
     ${symlink} -a
   '';
-in {
-  home.packages = [nx-switch nx-boot nx-test];
+in
+{
+  home.packages = [
+    nx-switch
+    nx-boot
+    nx-test
+  ];
 }

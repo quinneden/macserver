@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   nerdfonts = pkgs.nerdfonts.override {
     fonts = [
       "Ubuntu"
@@ -32,7 +33,8 @@
     name = "MoreWaita";
     package = pkgs.morewaita-icon-theme;
   };
-in {
+in
+{
   home = {
     packages = with pkgs; [
       cantarell-fonts
@@ -48,11 +50,9 @@ in {
       XCURSOR_THEME = cursorTheme.name;
       XCURSOR_SIZE = "${toString cursorTheme.size}";
     };
-    pointerCursor =
-      cursorTheme
-      // {
-        gtk.enable = true;
-      };
+    pointerCursor = cursorTheme // {
+      gtk.enable = true;
+    };
     file = {
       ".config/gtk-4.0/gtk.css".text = ''
         window.messagedialog .response-area > button,
@@ -83,15 +83,17 @@ in {
     platformTheme.name = "kde";
   };
 
-  home.file.".local/share/flatpak/overrides/global".text = let
-    dirs = [
-      "/nix/store:ro"
-      "xdg-config/gtk-3.0:ro"
-      "xdg-config/gtk-4.0:ro"
-      "${config.xdg.dataHome}/icons:ro"
-    ];
-  in ''
-    [Context]
-    filesystems=${builtins.concatStringsSep ";" dirs}
-  '';
+  home.file.".local/share/flatpak/overrides/global".text =
+    let
+      dirs = [
+        "/nix/store:ro"
+        "xdg-config/gtk-3.0:ro"
+        "xdg-config/gtk-4.0:ro"
+        "${config.xdg.dataHome}/icons:ro"
+      ];
+    in
+    ''
+      [Context]
+      filesystems=${builtins.concatStringsSep ";" dirs}
+    '';
 }

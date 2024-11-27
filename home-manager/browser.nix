@@ -1,4 +1,5 @@
-{inputs, ...}: {
+{ inputs, ... }:
+{
   home = {
     sessionVariables.BROWSER = "firefox";
 

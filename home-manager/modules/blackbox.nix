@@ -3,52 +3,56 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   inherit (lib) types;
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkOption mkEnableOption;
   inherit (lib.strings) sanitizeDerivationName;
 
   cfg = config.terminals.blackbox;
-in {
+in
+{
   options.terminals.blackbox = {
     enable = mkEnableOption "blackbox";
     alias = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
     };
     sessionVariable = mkOption {
       type = types.bool;
-      default = [];
+      default = [ ];
     };
     colors = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
     };
     settings = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
     };
   };
 
   config = mkIf cfg.enable {
     home = {
-      packages = let
-        term = ''${pkgs.blackbox-terminal}/bin/blackbox $@'';
-        aliases = map (n: pkgs.writeShellScriptBin n term) cfg.alias;
-      in
-        [pkgs.blackbox-terminal] ++ aliases;
+      packages =
+        let
+          term = ''${pkgs.blackbox-terminal}/bin/blackbox $@'';
+          aliases = map (n: pkgs.writeShellScriptBin n term) cfg.alias;
+        in
+        [ pkgs.blackbox-terminal ] ++ aliases;
 
       sessionVariables.TERMINAL = mkIf cfg.sessionVariable "blackbox";
 
-      file = let
-        mkScheme = name: {
-          ".local/share/blackbox/schemes/${sanitizeDerivationName name}.json" = {
-            text = builtins.toJSON (cfg.colors.${name} // {inherit name;});
+      file =
+        let
+          mkScheme = name: {
+            ".local/share/blackbox/schemes/${sanitizeDerivationName name}.json" = {
+              text = builtins.toJSON (cfg.colors.${name} // { inherit name; });
+            };
           };
-        };
-      in
-        builtins.foldl' (acc: x: acc // x) {} (map mkScheme (builtins.attrNames cfg.colors));
+        in
+        builtins.foldl' (acc: x: acc // x) { } (map mkScheme (builtins.attrNames cfg.colors));
     };
 
     dconf.settings = {
