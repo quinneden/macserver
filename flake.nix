@@ -54,6 +54,7 @@
         {
           default = pkgs.mkShell {
             shellHook = ''
+              set -e
               ${lib.getExe pkgs.nixos-rebuild} switch \
                 --fast --show-trace \
                 --flake .#macserver \

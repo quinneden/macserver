@@ -1,6 +1,7 @@
 {
   inputs,
   secrets,
+  pkgs,
   lib,
   ...
 }:
@@ -23,6 +24,8 @@ in
   users.users.${username} = {
     isNormalUser = true;
     initialPassword = username;
+    ignoreShellProgramCheck = true;
+    shell = pkgs.zsh;
     extraGroups = [
       "nixosvmtest"
       "networkmanager"
@@ -40,7 +43,6 @@ in
     users.${username} = {
       home.username = username;
       home.homeDirectory = "/home/${username}";
-      shell = pkgs.zsh;
       imports = [
         ../home-manager/ags.nix
         ../home-manager/blackbox.nix

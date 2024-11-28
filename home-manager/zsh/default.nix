@@ -4,7 +4,7 @@
   ...
 }:
 {
-  imports = [ ./starship.nix ];
+  # imports = [ ./starship.nix ];
 
   programs.zsh = {
     enable = true;
@@ -45,6 +45,9 @@
       if type z &>/dev/null; then alias cd='z'; fi
 
       for f ($HOME/.config/zsh/functions/*(N.)); do source $f; done
+
+      autoload -U promptinit; promptinit
+      prompt pure
     '';
     sessionVariables = {
       compdir = "$HOME/.config/zsh/completions";
