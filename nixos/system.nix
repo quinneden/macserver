@@ -1,14 +1,35 @@
-{ pkgs, ... }:
+{ pkgs, secrets, ... }:
 {
   documentation.nixos.enable = false;
   nixpkgs.config.allowUnfree = true;
+
   nix.settings = {
+    access-tokens = "github=${secrets.github.token}";
     experimental-features = "nix-command flakes";
     auto-optimise-store = true;
+    substituters = [
+      "https://cache.lix.systems"
+      "https://cache.nixos.org"
+      "https://hyprland.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
   };
 
   # dconf
   programs.dconf.enable = true;
+
+  programs.ssh.startAgent = true;
+
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "prohibit-password";
+      PrintMotd = false;
+    };
+  };
 
   # packages
   environment.systemPackages = with pkgs; [
@@ -43,7 +64,6 @@
     };
     printing.enable = true;
     flatpak.enable = true;
-    openssh.enable = true;
   };
 
   # logind
