@@ -43,7 +43,6 @@ in
       exec-once = [
         "ags -b hypr"
         "hyprctl setcursor Qogir 24"
-        "fragments"
       ];
 
       monitor = [
@@ -63,14 +62,13 @@ in
       };
 
       input = {
-        kb_layout = "hu,us";
+        kb_layout = "us";
         follow_mouse = 1;
         touchpad = {
           natural_scroll = "yes";
-          disable_while_typing = true;
           drag_lock = true;
         };
-        sensitivity = 0;
+        sensitivity = 0.1;
         float_switch_override_focus = 2;
       };
 
@@ -106,7 +104,6 @@ in
           (f "xdg-desktop-portal-gnome")
           (f "de.haeckerfelix.Fragments")
           (f "com.github.Aylur.ags")
-          "workspace 7, title:Spotify"
         ];
 
       bind =

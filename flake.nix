@@ -12,6 +12,11 @@
     }:
     let
       host = "macserver";
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+      ];
+      forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
     in
     {
       packages.aarch64-linux.default = nixpkgs.legacyPackages.aarch64-linux.callPackage ./ags {
@@ -39,6 +44,25 @@
       checks = {
         "${host}" = self.nixosConfigurations.aarch64-linux.${host}.config.system.build.toplevel;
       };
+
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          lib = nixpkgs.lib;
+        in
+        {
+          default = pkgs.mkShell {
+            shellHook = ''
+              ${lib.getExe pkgs.nixos-rebuild} switch \
+                --fast --show-trace \
+                --flake .#macserver \
+                --target-host "root@macserver" \
+                --build-host "root@macserver"
+            '';
+          };
+        }
+      );
     };
 
   inputs = {

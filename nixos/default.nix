@@ -40,6 +40,7 @@ in
     users.${username} = {
       home.username = username;
       home.homeDirectory = "/home/${username}";
+      shell = pkgs.zsh;
       imports = [
         ../home-manager/ags.nix
         ../home-manager/blackbox.nix
