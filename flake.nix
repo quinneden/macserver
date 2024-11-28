@@ -60,6 +60,7 @@
                 --flake .#macserver \
                 --target-host "root@macserver" \
                 --build-host "root@macserver"
+              exit 0
             '';
           };
         }

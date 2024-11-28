@@ -21,7 +21,17 @@
   # dconf
   programs.dconf.enable = true;
 
-  programs.ssh.startAgent = true;
+  programs.ssh = {
+    startAgent = true;
+    knownHosts = {
+      macmini-m4 = {
+        hostNames = [
+          "10.0.0.90"
+        ];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG52w+bYwAVGUEHvKgkfk1dBR+VxTyHRDno1fXlTt55y";
+      };
+    };
+  };
 
   services.openssh = {
     enable = true;
