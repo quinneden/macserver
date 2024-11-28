@@ -26,7 +26,7 @@
   services.openssh = {
     enable = true;
     settings = {
-      PermitRootLogin = "prohibit-password";
+      PermitRootLogin = "yes";
       PrintMotd = false;
     };
   };
